@@ -20,24 +20,19 @@ def is_valid_joltage(sorted_joltage):
     return joltage_map
 
 
-def number_of_configs(sorted_joltage, valid_map=[]):
-    print("Working...", len(valid_map), "solution", end='\r')
+def number_of_configs(sorted_joltage):
+    jolts = [0]
+    jolts += sorted_joltage.copy()
+    jolts.append(sorted_joltage[-1] + 3)
 
-    # Naive
-    # Check if checked
-    for elem in valid_map:
-        if collections.Counter(elem) == collections.Counter(sorted_joltage):
-            return 0
-    if not is_valid_joltage(sorted_joltage):
-        return 0
-    valid_map.append(sorted_joltage)
+    voltage_paths = {0: 1}
+    # Build a map like  {0: 1, 1: 1, 4: 1, 5: 1, 6: 2, 7: 4...} listing the number of ways to each number
+    for jolt in jolts[1:]:
+        # sum the last 3 ways to reach this number
+        voltage_paths[jolt] = \
+            voltage_paths.get(jolt-1, 0) + voltage_paths.get(jolt-2, 0) + voltage_paths.get(jolt-3, 0)
 
-    total = 1
-    for idx in range(1, len(sorted_joltage) - 1):  # first and last are fixtures
-        sub_list = sorted_joltage.copy()
-        sub_list.pop(idx)
-        total += number_of_configs(sub_list, valid_map)
-    return total
+    return voltage_paths
 
 
 joltage_array = [int(i) for i in vacation_helpers.file_to_array(FILE)]
@@ -57,7 +52,7 @@ print("Answer: ", jolt_map[1] * jolt_map[3])
 # Any diff < 3 can be tested without
 # Build
 
-validity = []
-print(number_of_configs(joltage_sorted, validity))
-print(validity, len(validity))
+results = number_of_configs(joltage_sorted)
+print("Results", results)
+print("Total ", results[max(results.keys())])
 
