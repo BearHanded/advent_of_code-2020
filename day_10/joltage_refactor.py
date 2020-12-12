@@ -1,5 +1,4 @@
 import collections
-
 from helpers import vacation_helpers
 
 FILE = "input.txt"
