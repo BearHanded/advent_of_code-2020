@@ -29,4 +29,4 @@ print("Answer: ", jolt_map[1] * jolt_map[3])
 # PART 2
 # Always preserve 0 and max in array
 # Any diff < 3 can be tested without
-# Build 
+# Build
