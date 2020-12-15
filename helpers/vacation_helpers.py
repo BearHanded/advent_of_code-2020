@@ -1,12 +1,23 @@
-def file_to_array(filename):
+def get_file_and_print(filename):
     fp = open(filename, 'r')
     print(BColors.OKGREEN + "--------")
     print("IMPORTING ", filename)
     print("--------" + BColors.ENDC)
+    return fp
 
+
+def file_to_array(filename):
+    fp = get_file_and_print(filename)
     input_iterable = map(lambda x: x.replace("\n", ""), fp.readlines())
     input_array = list(input_iterable)
     return input_array
+
+
+def file_as_string(filename):
+    fp = get_file_and_print(filename)
+    input_iterable = map(lambda x: x.replace("\n", ""), fp.readlines())
+    input = list(input_iterable)[0]
+    return input
 
 
 class BColors:
